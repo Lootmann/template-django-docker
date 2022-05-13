@@ -23,7 +23,7 @@ services:
     volumes:
       - type: volume
         source: psql-db
-        target: /var/lib/postgres/data
+        target: /var/lib/postgresql/data
     ports:
       - published: 5432
         target: 5432
