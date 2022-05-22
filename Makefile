@@ -22,6 +22,15 @@ verbose:
 restart:
 	docker compose restart
 
+show_urls:
+	docker compose exec app python3 manage.py show_urls
+
 # database command
 migrate:
 	docker compose exec app python3.10 manage.py migrate
+
+dump:
+	docker compose exec app python3 manage.py dumpdata --format=yaml > ./dumps/dump.yml
+
+loaddata:
+	docker compose exec app python3 manage.py loaddata --format=yaml ./dumps/dump.yml
