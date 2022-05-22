@@ -4,7 +4,9 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile
-    command: ["python3.10", "/code/manage.py", "runserver", "0.0.0.0:8080"]
+    working_dir: /code
+    command: python3.10 -m gunicorn --workers 2 --bind 0.0.0.0:8080 --access-logfile - --capture-output --log-level debug config.wsgi
+    #command: python3.10 -c 'from pathlib import Path; print("\n".join([str(path.expanduser().resolve()) for path in Path(".").glob("**/*")]));'
     volumes:
       - type: bind
         source: ./app
@@ -22,7 +24,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - type: volume
-        source: psql-db
+        source: test-db
         target: /var/lib/postgresql/data
     ports:
       - published: 5432
@@ -30,4 +32,4 @@ services:
     env_file: ./db/.env
 
 volumes:
-  psql-db:
+  test-db:
